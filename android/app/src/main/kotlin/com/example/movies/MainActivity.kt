@@ -1,4 +1,4 @@
-package com.example.movies
+package com.takenflutt.movies
 
 import android.os.Bundle
 

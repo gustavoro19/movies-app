@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:movies/src/providers/movies_provider.dart';
+import 'package:movies/src/search/search_delegate.dart';
 
 import 'package:movies/src/widgets/cart_swiper_widget.dart';
 import 'package:movies/src/widgets/movie_horizontal.dart';
@@ -14,6 +15,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    moviesProvider.getPopular();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Movies in theaters'),
@@ -22,7 +26,9 @@ class HomePage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon( Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              showSearch(context: context, delegate: DataSearch(),);
+            },
           )
         ],
       ),
@@ -74,12 +80,16 @@ class HomePage extends StatelessWidget {
             child: Text("Popular", style: Theme.of(context).textTheme.subhead,)
           ),
           SizedBox(height: 5.0,),
-          FutureBuilder(
-            future: moviesProvider.getPopular(),
+
+          StreamBuilder(
+            stream: moviesProvider.popularsStream,
             // initialData: InitialData,
             builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
               if (snapshot.hasData) {
-                  return MovieHorizontal( movies: snapshot.data ); 
+                  return MovieHorizontal( 
+                    movies: snapshot.data,
+                    nextPage: moviesProvider.getPopular,
+                  ); 
               } else {
                 return Center(child: CircularProgressIndicator());
               }
