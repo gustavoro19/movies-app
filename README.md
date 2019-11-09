@@ -1,6 +1,7 @@
 # movies
 
-A new Flutter project.
+App using themoviedb API for show new and popular movies. 
+https://play.google.com/store/apps/details?id=com.takenflutt.movies 
 
 ## Getting Started
 
